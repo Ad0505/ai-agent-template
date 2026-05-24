@@ -1,13 +1,13 @@
-from tools.tools import *
+from tools.tools import SelectName, SelectPlot, SelectSetting
 
 TOOLS = {
-    "cart_add": cart_add,
-    "cart_total": cart_total,
-    "cart_list": cart_list,
+    "SelectName": SelectName,
+    "SelectSetting": SelectSetting,
+    "SelectPlot": SelectPlot,
 }
 
 TOOL_DESCRIPTIONS = {
-    "cart_add": "Add an item to the cart. args: item:str, cost:int",
-    "cart_total": "Return total cost of all items in cart. args: none",
-    "cart_list": "Return all items currently in cart. args: none",
+    "SelectName": "Select a random name from the fantasy names list. args: none",
+    "SelectSetting": "Select a random setting from the settings list. args: none",
+    "SelectPlot": "Select a random plot from the plot list. args: none",
 }
