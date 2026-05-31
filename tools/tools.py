@@ -19,3 +19,9 @@ def SelectSetting():
 
 def SelectPlot():
     return _select_from_state("Plot", "Selected Plot")
+
+def GenerateStory():
+    name = STATE["Selected Name"]
+    setting = STATE["Selected Setting"]
+    plot = STATE["Selected Plot"]
+    return f"Generate a story with a character named {name}, in a setting of {setting}, and with a plot that leads to {plot}."

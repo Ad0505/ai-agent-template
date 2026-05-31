@@ -7,7 +7,6 @@ import sys
 import os
 from log_util import clear_log
 from platform_utils import get_ollama_executable
-from config import MODEL_PATH
 
 OLLAMA_PATH = get_ollama_executable()
 OLLAMA_URL = "http://localhost:11434"
@@ -15,30 +14,6 @@ API_URL = "http://localhost:8000/chat"
 
 ollama_process = None
 api_process = None
-
-
-def resolve_models_path(path):
-    path = os.path.expanduser(path)
-    if os.path.isabs(path):
-        return path
-
-    # Try the current working directory first.
-    candidate = os.path.abspath(path)
-    if os.path.exists(candidate):
-        return candidate
-
-    # Try relative to the repository root.
-    repo_root = os.path.abspath(os.path.dirname(__file__))
-    candidate = os.path.abspath(os.path.join(repo_root, path))
-    if os.path.exists(candidate):
-        return candidate
-
-    # Try relative to the home directory.
-    candidate = os.path.abspath(os.path.join(os.path.expanduser("~"), path.lstrip("./")))
-    if os.path.exists(candidate):
-        return candidate
-
-    return os.path.abspath(path)
 
 
 # -------------------------
@@ -51,16 +26,11 @@ def start_ollama():
 
     env = os.environ.copy()
 
-    # Set models directory (relative -> absolute path).
-    # Prefer Ollama's native OLLAMA_MODELS var, with OLLAMA_MODELS_DIR kept
-    # as a backwards-compatible alias for existing local setups.
-    configured_models_path = os.environ.get("OLLAMA_MODELS")
-    configured_models_path = configured_models_path or os.environ.get("OLLAMA_MODELS_DIR")
-    models_path = resolve_models_path(configured_models_path or MODEL_PATH)
-    if not os.path.exists(models_path):
-        print(f"Warning: model path does not exist: {models_path}")
+    # Set models directory (relative → absolute path)
+    models_path = os.path.abspath(os.path.join("ollama", "models"))
+    os.makedirs(models_path, exist_ok=True)
+
     env["OLLAMA_MODELS"] = models_path
-    print(f"Using OLLAMA_MODELS={models_path}")
 
     ollama_process = subprocess.Popen(
         [OLLAMA_PATH, "serve"],
