@@ -41,7 +41,6 @@ Rules:
 - Use tools only when they are needed.
 - If answering directly, use "final"
 - No extra text
--For generating stories, you could violate the rules above.
--For generating stories, use the tool GenerateStory and use the selected name, setting and plot.
+-For generating stories, use the tool GenerateStory.
 -For generating stories, return a story that is at least 200 words long.
 """
